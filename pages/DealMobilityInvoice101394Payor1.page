@@ -1,0 +1,479 @@
+<apex:page renderAs="pdf" applyHtmlTag="false" showHeader="false" showChat="false" standardStylesheets="false" standardController="dealer__Deal__c" extensions="dealer.DealPrintController">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+            <style>
+                .adaptive-equipment td {
+                border: 1px solid #444444;
+                color: #444;
+                padding:3px;
+                }
+                body {
+                color: #444;
+                font-family: sans-serif;
+                font-size: 12px;
+                max-width: 900px;
+                }
+                .border-bottom td {
+                border-bottom: 1px solid #444444;
+                }
+                .center {
+                text-align: center;
+                }
+                .disclaimer {
+                font-size: .75em;
+                color: #444;
+                padding: 0 20px;
+                text-align: center;
+                }
+                .disclaimer1 {
+                font-size: .75em;
+                color: #444;
+                }
+                .disclaimer2 {
+                font-size: .75em;
+                color: #444;
+                margin-left: 15px;
+                text-align: justify;
+                }
+                .equipment-info {
+                color: #444;
+                }
+                .equipment-info td {
+                padding: 3px;
+                }
+                h1 {
+                font-size: 30px;
+                color: #444;
+                margin: 0px;
+                }
+                h1 small {
+                display: block;
+                font-size: .6em;
+                font-weight: 400;
+                color: #939393;
+                }
+                .liclass {
+                margin: 0 0 2px 0;
+                text-align: justify;
+                }
+                .olclass {
+                margin-left: 15px;
+                text-align: justify;
+                }
+                @page {
+                size: A4 portrait;
+                margin: 0.25in 0.5in .35in;
+                @bottom-left {
+                content: "";
+                }
+                @bottom-right {
+                width: 200px;
+                font-size: 12px;
+                //content: "Page " counter(page) " of " counter(pages);
+                
+                }
+                }
+                #page2 {
+                page-break-before : always;
+                break-before : always;
+                }
+                .right {
+                text-align: right;
+                }
+                .row-alt {
+                background-color: #eaeaea;
+                }
+                .store-info {
+                text-align: right;
+                margin-top: 0;
+                font-size: 12px;
+                }
+                table {
+                page-break-inside: avoid !important;
+                }
+                .table-header {
+                background-color: #eaeaea;
+                font-size: 14px;
+                font-weight: bold;
+                color: #444 !important;
+                padding: 3px;
+                padding-bottom: 3px !important;
+                text-align: left !important;
+                }
+                .top-module-header {
+                background-color: #eaeaea;
+                width: 33%;
+                font-size: 14px;
+                font-weight: bold;
+                color: #444;
+                padding: 3px;
+                padding-bottom: 3px !important;
+                }
+                .top-module-table {
+                color: #444;
+                margin-top: 10px;
+                }
+                .top-module-table td {
+                padding-bottom: 5px;
+                }
+                .text-right {
+                text-align: right;
+                font-weight: bold;
+                }
+                .vehicle-info, .vehicle-info th, .vehicle-info td {
+                border: 1px solid #444444;
+                border-collapse: collapse;
+                padding: 3px;
+                }         
+                
+                .vehicle-info td {
+                text-align: center;
+                color: #444;
+                }
+                .text-left {
+                text-align: left;      
+                }
+                .borderer-right-cell {
+                border-right: 1px solid #444444;
+                padding-right: 20px;      
+                }
+                .borderer-left-cell {
+                border-left: 1px solid #444444;
+                }
+                .not_bold {
+                font-weight: normal;
+                }
+                .table_outline_border, .table_outline_border td  {
+                border: 1px solid #444444;
+                border-collapse: collapse;
+                }
+                
+            </style>
+        </head>
+        <body>
+            <div id="page1" style="margin-top:-20px;font-family:sans-serif;font-size:12px;">
+                <!-- Header -->
+                <table width="100%" border="0">
+                    <tr>
+                        <td style="vertical-align:top;">
+                            <apex:image id="businessLogo" url="/{!dealW.logoURL}" height="80" style="height:80px;width:auto;" />
+                        </td>
+                        <td rowspan="2" style="vertical-align:top">
+                            <table width="100%" cellpadding="0" cellspacing="0" class="store-info">
+                                <tr>
+                                    <td>
+                                        <b>
+                                            <apex:outputField value="{!dealer__Deal__c.dealer__Store_Location__r.Name}" />
+                                        </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <apex:outputField value="{!dealer__Deal__c.dealer__Store_Location__r.dealer__Street__c}" />
+                                        <br />
+                                        <apex:outputText value="{0}" rendered="{!NOT(ISBLANK(dealer__Deal__c.dealer__Store_Location__r.dealer__City__c))}">
+                                            <apex:param value="{!dealer__Deal__c.dealer__Store_Location__r.dealer__City__c}" />
+                                        </apex:outputText>
+                                        <apex:outputText value=", " rendered="{!dealer__Deal__c.dealer__Store_Location__r.dealer__City__c != null}" />
+                                        <apex:outputText value="{0}" rendered="{!NOT(ISBLANK(dealer__Deal__c.dealer__Store_Location__r.dealer__State__c))}">
+                                            <apex:param value="{!dealer__Deal__c.dealer__Store_Location__r.dealer__State__c}" />
+                                        </apex:outputText>
+                                        <apex:outputPanel rendered="{!NOT(ISBLANK(dealer__Deal__c.dealer__Store_Location__r.dealer__Postal_Code__c))}">
+                                            <apex:outputText value=", " rendered="{!dealer__Deal__c.dealer__Store_Location__r.dealer__State__c != null}" />
+                                            <apex:outputText value="{0}">
+                                                <apex:param value="{!dealer__Deal__c.dealer__Store_Location__r.dealer__Postal_Code__c}" />
+                                            </apex:outputText>
+                                            <br />
+                                        </apex:outputPanel>
+                                        <apex:outputField value="{!dealer__Deal__c.dealer__Store_Location__r.dealer__Main_Phone__c}" />
+                                        <br/>
+                                        <p style="margin-top:0px"> {!dealer__Deal__c.dealer__Salesperson_1__r.Name}
+                                            <br /> {!dealer__Deal__c.dealer__Salesperson_1__r.Email}
+                                            <br />
+                                            <apex:outputPanel rendered="{! AND( NOT(ISBLANK(dealer__Deal__c.dealer__Salesperson_1__r.Phone)), (dealer__Deal__c.dealer__Salesperson_1__r.Phone != dealer__Deal__c.dealer__Store_Location__r.dealer__Main_Phone__c) ) }">
+                                                <apex:outputField value="{!dealer__Deal__c.dealer__Salesperson_1__r.Phone}" />
+                                            </apex:outputPanel>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="bottom">
+                            <h1>Invoice</h1>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%" border="0">
+                    <tr>
+                        <td class="top-module-header">Billing Info</td>
+                        <td rowspan="7">&nbsp;</td>
+                        <td class="top-module-header">Client Info</td>
+                        <td rowspan="7">&nbsp;</td>
+                        <td class="top-module-header">Deal #:
+                            <apex:outputText value="{!dealer__Deal__c.Name}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- Billing Info -->
+                        <td valign="top">
+                            <table class="top-module-table" cellpadding="0" cellspacing="0">
+                                <!-- Buyer billing info (for non dealW.Payor1 Invoices) -->
+                                <apex:outputText rendered="{!dealW.Payor1 == null}">
+                                    <tr>
+                                        <td class="value">
+                                            <apex:outputText value="{!dealer__Deal__c.dealer__Buyer__r.Name}" />
+                                        </td>
+                                    </tr>
+                                    <apex:outputText rendered="{!NOT(ISBLANK(dealer__Deal__c.dealer__Co_Buyer__c))}">
+                                        <tr>
+                                            <td class="value">
+                                                <apex:outputText value="{!'Co-Buyer: '+dealer__Deal__c.dealer__Co_Buyer__r.Name}" />
+                                            </td>
+                                        </tr>
+                                    </apex:outputText>
+                                    <tr>
+                                        <td>
+                                            <apex:outputText value="{!dealer__Deal__c.dealer__Buyer_Address__c }" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <apex:outputText value="{0}" rendered="{!NOT(ISBLANK(dealer__Deal__c.dealer__Buyer_City__c))}" >
+                                                <apex:param value="{!dealer__Deal__c.dealer__Buyer_City__c}"/>
+                                            </apex:outputText>
+                                            <apex:outputText value=", " rendered="{!dealer__Deal__c.dealer__Buyer_City__c != null}" />
+                                            <apex:outputText value="{0}" rendered="{!NOT(ISBLANK(dealer__Deal__c.dealer__Buyer_State__c))}" >
+                                                <apex:param value="{!dealer__Deal__c.dealer__Buyer_State__c}"/>
+                                            </apex:outputText>
+                                            <apex:outputPanel rendered="{!NOT(ISBLANK(dealer__Deal__c.dealer__Buyer_Postal_Code__c))}">
+                                                <apex:outputText value=", " rendered="{!dealer__Deal__c.dealer__Buyer_State__c != null}" />
+                                                <apex:outputText value="{0}" >
+                                                    <apex:param value="{!dealer__Deal__c.dealer__Buyer_Postal_Code__c}"/>
+                                                </apex:outputText>
+                                            </apex:outputPanel>
+                                        </td>
+                                    </tr>
+                                    <apex:outputPanel rendered="{!NOT(ISBLANK(dealer__Deal__c.dealer__Buyer_Home_Phone__c))}" layout="none">
+                                        <tr>
+                                            <td>
+                                                <apex:outputField value="{!dealer__Deal__c.dealer__Buyer_Home_Phone__c}" />
+                                            </td>
+                                        </tr>
+                                    </apex:outputPanel>
+                                </apex:outputText>
+                                
+                                <!-- dealW.Payor1 Billing Info (For dealW.Payor1 Invoices)-->
+                                <apex:outputText rendered="{!dealW.Payor1 != null}">
+                                    <tr>
+                                        <td class="value">
+                                            <apex:outputText value="{!dealW.Payor1.Name}" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <apex:outputText value="{!dealW.Payor1.BillingStreet}" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <apex:outputText value="{!dealW.Payor1.BillingCity}" />
+                                            <apex:outputText rendered="{!NOT(ISBLANK(dealW.Payor1.BillingState))}">,&nbsp;</apex:outputText>
+                                            <apex:outputText value="{!dealW.Payor1.BillingState}" />&nbsp;
+                                            <apex:outputText value="{!dealW.Payor1.BillingPostalCode}" />
+                                        </td>
+                                    </tr>
+                                    <apex:outputPanel rendered="{!NOT(ISBLANK(dealer__Deal__c.dealer__Buyer_Home_Phone__c))}" layout="none">
+                                        <tr>
+                                            <td>
+                                                <apex:outputField value="{!dealW.Payor1.Phone}" />
+                                            </td>
+                                        </tr>
+                                    </apex:outputPanel>
+                                </apex:outputText>
+                                
+                            </table>
+                        </td>
+                        
+                        <td valign="top">
+                            <table class="top-module-table" cellpadding="0px" cellspacing="0">
+                                <tr>
+                                    <td>
+                                        <apex:outputText value="{!dealer__Deal__c.dealer__Buyer__r.Name}" />
+                                    </td>
+                                </tr>
+                                <apex:outputText rendered="{!NOT(ISBLANK(dealer__Deal__c.dealer__Co_Buyer__c))}">
+                                    <tr>
+                                        <td class="value">
+                                            <apex:outputText value="{!'Co-Buyer: '+dealer__Deal__c.dealer__Co_Buyer__r.Name}" />
+                                        </td>
+                                    </tr>
+                                </apex:outputText>
+                                <tr>
+                                    <td>
+                                        <apex:outputText value="{!dealer__Deal__c.dealer__Buyer_Address__c}" />
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <apex:outputPanel rendered="{!NOT(ISBLANK(dealer__Deal__c.dealer__Buyer__c))}">
+                                            <apex:outputText value="{0}" rendered="{!NOT(ISBLANK(dealer__Deal__c.dealer__Buyer_City__c))}">
+                                                <apex:param value="{!dealer__Deal__c.dealer__Buyer_City__c}" />
+                                            </apex:outputText>
+                                            <apex:outputText value=", " rendered="{!dealer__Deal__c.dealer__Buyer_City__c != null}" />
+                                            <apex:outputText value="{0}" rendered="{!NOT(ISBLANK(dealer__Deal__c.dealer__Buyer_State__c))}">
+                                                <apex:param value="{!dealer__Deal__c.dealer__Buyer_State__c}" />
+                                            </apex:outputText>
+                                            <apex:outputPanel rendered="{!NOT(ISBLANK(dealer__Deal__c.dealer__Buyer_Postal_Code__c))}">
+                                                <apex:outputText value=", " rendered="{!dealer__Deal__c.dealer__Buyer_State__c != null}" />
+                                                <apex:outputText value="{0}">
+                                                    <apex:param value="{!dealer__Deal__c.dealer__Buyer_Postal_Code__c}" />
+                                                </apex:outputText>
+                                            </apex:outputPanel>
+                                        </apex:outputPanel>
+                                    </td>
+                                </tr>
+                                <apex:outputPanel rendered="{!NOT(ISBLANK(dealer__Deal__c.dealer__Buyer_Home_Phone__c))}" layout="none">
+                                    <tr>
+                                        <td>
+                                            <apex:outputField value="{!dealer__Deal__c.dealer__Buyer_Home_Phone__c}" />
+                                        </td>
+                                    </tr>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!NOT(ISBLANK(dealer__Deal__c.dealer__ClientNotes__c))}" layout="none">
+                                    <tr>
+                                        <td style="width:175px;">
+                                            <apex:outputField value="{!dealer__Deal__c.dealer__ClientNotes__c}" />
+                                        </td>
+                                    </tr>
+                                </apex:outputPanel>
+                            </table>
+                        </td>
+                        
+                        <td valign="top">
+                            <table class="top-module-table" cellpadding="0px" cellspacing="0">
+                                <tr>
+                                    <td>
+                                        <strong>Stock #&nbsp;</strong>
+                                    </td>
+                                    <td>
+                                        <apex:outputText value="{!dealer__Deal__c.dealer__Stock_Number__c}" />
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <strong>Delivery Date&nbsp;</strong>
+                                    </td>
+                                    <td>
+                                        <apex:OutputText value="{0, date, MM'/'dd'/'yyyy}">
+                                            <apex:param value="{!dealer__Deal__c.dealer__Delivery_Date__c}" />
+                                        </apex:OutputText>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <!-- Header End -->
+                <!-- Adaptive Equipment Summary: conversion + aftermarket where Paid By is Other or blank -->
+                <table width="100%" border="0" cellpadding="3" cellspacing="0" class="adaptive-equipment">
+                    <thead>
+                        <tr>
+                            <th colspan="2" align="center">
+                                <h2 class="center">Adaptive Equipment Summary</h2>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <apex:outputText value="{!dealer__Deal__c.dealer__Year__c}" />
+                                &nbsp;
+                                <apex:outputText value="{!dealer__Deal__c.dealer__Make__c}" />
+                                &nbsp;
+                                <apex:outputText value="{!dealer__Deal__c.dealer__Model__c}" />
+                                <apex:outputText rendered="{!NOT(ISBLANK(dealer__Deal__c.dealer__VIN__c))}">&nbsp;  - &nbsp; VIN# &nbsp;</apex:outputText>
+                                <apex:outputText value="{!dealer__Deal__c.dealer__VIN__c}" />
+                            </td>
+                            <td class="text-right">&nbsp;</td>
+                        </tr>
+                        <apex:variable var="conversionPrice" value="{!0}" />
+                        <apex:variable var="pTot" value="{!0}" />
+                        <apex:outputText rendered="{!AND(NOT(ISBLANK(dealer__Deal__c.dealer__Vehicle__r.dealer__Conversion_Description__c)), dealer__Deal__c.dealer__ConversionPaidBy__c != 'Customer')}">
+                            <tr>
+                                <td>
+                                    <apex:outputText value="{!dealer__Deal__c.dealer__Vehicle__r.dealer__Conversion_Description__c}" />
+                                </td>
+                                <td class="text-right">
+                                    <apex:outputText value="{0, number, currency}">
+                                        <apex:param value="{!dealer__Deal__c.dealer__Conversion_Price__c}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                        </apex:outputText>
+                        <apex:outputText rendered="{!AND(ISBLANK(dealer__Deal__c.dealer__Vehicle__c), NOT(ISBLANK(dealer__Deal__c.dealer__Conversion_Description__c)), dealer__Deal__c.dealer__ConversionPaidBy__c != 'Customer')}">
+                            <tr>
+                                <td>
+                                    <apex:outputText value="{!dealer__Deal__c.dealer__Conversion_Description__c}" />
+                                </td>
+                                <td class="text-right">
+                                    <apex:outputText value="{0, number, currency}">
+                                        <apex:param value="{!dealer__Deal__c.dealer__Conversion_Price__c}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                        </apex:outputText>
+                        <apex:outputText rendered="{!AND(NOT(ISBLANK(dealer__Deal__c.dealer__Conversion_Price__c)), dealer__Deal__c.dealer__ConversionPaidBy__c != 'Customer', OR(NOT(ISBLANK(dealer__Deal__c.dealer__Vehicle__r.dealer__Conversion_Description__c)), AND(ISBLANK(dealer__Deal__c.dealer__Vehicle__c), NOT(ISBLANK(dealer__Deal__c.dealer__Conversion_Description__c)))))}">
+                            <apex:variable var="conversionPrice" value="{!conversionPrice + dealer__Deal__c.dealer__Conversion_Price__c}" />
+                        </apex:outputText>
+                        <apex:repeat var="equip" value="{!dealW.afterMarketItems}">
+                            <apex:outputPanel layout="none" rendered="{!AND(equip.dealer__Printable__c, NOT(ISBLANK(equip.dealer__Sale_Price__c)), equip.dealer__PaidBy__c != 'Customer')}">
+                                <apex:variable var="pTot" value="{!pTot + equip.dealer__Sale_Price__c}" />
+                                <tr>
+                                    <td>
+                                        <strong>
+                                            <apex:outputText value="[QTY:{!equip.dealer__Quantity__c}] {!equip.Name}" />
+                                        </strong>
+                                        &nbsp;
+                                        <apex:outputText value="{!equip.dealer__Description__c}" />
+                                    </td>
+                                    <td align="right" class="lines">
+                                        <apex:outputText value="{0, number, currency}">
+                                            <apex:param value="{!equip.dealer__Sale_Price__c}" />
+                                        </apex:outputText>
+                                    </td>
+                                </tr>
+                            </apex:outputPanel>
+                        </apex:repeat>
+                        <tr>
+                            <td class="text-right" width="80%" style="font-size:1.2em;"><strong>Total Adaptive Equipment</strong></td>
+                            <td class="text-right" width="20%">
+                                <apex:outputText value="{0, number, currency}">
+                                    <apex:param value="{!conversionPrice + pTot}" />
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+                <!-- Signatures -->
+                <table  width="100%">
+                    <tr style="height:40px"> </tr>
+                    <tr style=" text-align:left;">
+                        <td width="35%" ><div style= "border-top: 2px ridge; width:90%; font-size: .9em;">PURCHASER'S SIGNATURE</div></td>
+                        <td width="15%"><div style= "border-top: 2px ridge; width:90%; font-size: .9em;">DATE</div></td>
+                        <td width="35%"><div style= "border-top: 2px ridge; width:90%; font-size: .9em;">SALES CONSULTANT'S SIGNATURE</div></td>
+                        <td width="15%"><div style= "border-top: 2px ridge; width:90%; font-size: .9em;">DATE</div></td>
+                    </tr>
+                    <tr style="height:40px"> </tr>
+                    <tr style=" text-align:left; border-top:2px black;">
+                        <td width="35%"><div style= "border-top: 2px ridge; width:90%; font-size: .9em;">CO-PURCHASER'S SIGNATURE</div></td>
+                        <td width="15%"><div style= "border-top: 2px ridge; width:90%; font-size: .9em;">DATE</div></td>
+                        <td width="35%"><div style= "border-top: 2px ridge; width:90%; font-size: .9em;">MANAGER'S SIGNATURE</div></td>
+                        <td width="15%"><div style= "border-top: 2px ridge; width:90%; font-size: .9em;">DATE</div></td>
+                    </tr>
+                </table>
+            </div>
+        </body>
+    </html>
+</apex:page>

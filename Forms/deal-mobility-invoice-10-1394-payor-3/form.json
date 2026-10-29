@@ -1,0 +1,8 @@
+{
+  "Name": "Mobility Invoice 10-1394 Payor 3",
+  "dealer__Active__c": false,
+  "dealer__Print_Type__c": "Laser",
+  "dealer__Based_on_Object__c": "dealer__Deal__c",
+  "dealer__Page_Name__c": "c__DealMobilityInvoice101394Payor3",
+  "dealer__DefaultFormula__c": "((dealer__Conversion_Price__c != 0) || (dealer__ConversionCost__c != 0)) && ((dealer__Deferred_Note_3__c = \"1394\") || (dealer__Deferred_Note_3__c = \"1394 Grant\") || (dealer__Deferred_Note_3__c = \"10-1394 Grant\"))"
+}

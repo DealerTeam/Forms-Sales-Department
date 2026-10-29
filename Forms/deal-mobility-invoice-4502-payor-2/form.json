@@ -1,0 +1,8 @@
+{
+  "Name": "Mobility Invoice 4502 Payor 2",
+  "dealer__Active__c": false,
+  "dealer__Print_Type__c": "Laser",
+  "dealer__Based_on_Object__c": "dealer__Deal__c",
+  "dealer__Page_Name__c": "c__DealMobilityInvoice4502Payor2",
+  "dealer__DefaultFormula__c": "((dealer__Conversion_Price__c != 0) || (dealer__ConversionCost__c != 0)) && ((dealer__Deferred_Note_2__c = \"4502\") || (dealer__Deferred_Note_2__c = \"4502 Grant\"))"
+}
